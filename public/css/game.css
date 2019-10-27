@@ -1,0 +1,133 @@
+:root {
+  --main-bg-color: #70552f;
+  --card-bg-color: #382b1e;
+  --game-bg-color: cornsilk;
+  --info-bg-color: #f8f4ef;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--main-bg-color);
+}
+
+#container {
+  margin: 0 auto;
+  /* display: flex;
+  justify-content: center;
+  flex-direction: column; */
+  text-align: center; /* center game container which is a inline block element */
+}
+
+#score-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 40px;
+}
+
+.game-info {
+  background-color: var(--info-bg-color);
+  padding: 0 10px;
+  opacity: 0.5;
+  margin-right: 3px;
+  display: inline-block;
+  line-height: 1rem;
+}
+
+.game-info span {
+  padding-left: 30px;
+}
+
+#game-container {
+  margin-top: 120px;
+  background-color: var(--game-bg-color);
+  padding: 10px;
+  display: inline-block;
+}
+
+.rotate-matrix {
+  animation: rotateGame 1s ease-in-out 3s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes rotateGame {
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+.column {
+  display: inline-flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding: 1px;
+  align-items: flex-start;
+}
+
+.card {
+  background-color: var(--card-bg-color);
+  flex-grow: 1;
+  width: 80px;
+  height: 80px;
+  margin: 1px;
+}
+
+.flip-card-double {
+  animation: flipCardDouble;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 1s;
+}
+
+@keyframes flipCardDouble {
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+    background-color: #33ccff;
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+.flip-card-single {
+  animation: flipCardSingle;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes flipCardSingle {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(180deg);
+    background-color: #33ccff;
+  }
+}
+
+.success-card {
+  content: "\2713";
+}
+
+.error-card {
+}
+
+.audio-container {
+  display: none;
+}

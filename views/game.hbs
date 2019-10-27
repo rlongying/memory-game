@@ -1,1 +1,23 @@
-<h1>game page</h1>
+<div id="container">
+    <div id="score-container">
+        <div class="game-info">
+            <p>TILES <span id="tiles">0</span></p>
+        </div>
+        <div class="game-info">
+            <p>TRIAL <span id="trial">0</span></p>
+        </div>
+        <div class="game-info">
+            <p>SCORE <span id="score">0</span></p>
+        </div>
+    </div>
+    <div id="game-container" class="column">
+        {{!-- cards --}}
+    </div>
+    <div class="audio-container">
+        <audio id='new-game-success-sound' src="/assets/new-game-success.wav"></audio>
+        <audio id="flip-card-success-sound" src="/assets/card-flip-success.wav"></audio>
+        <audio id="last-card-success-sound" src="/assets/last-card-success.wav"></audio>
+        <audio id="flip-card-error-sound" src="/assets/card-flip-error.wav"></audio>
+        <audio id='new-game-failure-sound' src=""></audio>
+    </div>
+</div>
