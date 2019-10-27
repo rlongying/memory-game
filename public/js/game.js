@@ -22,20 +22,48 @@ let checkCard = event => {
   let hasSelected = card.dataset.selected;
 
   if (hasSelected === "true") {
-    card.classList.add("flip-card-single");
+    // click correct card
     if (!hasError && clickCount === 1) {
+      // correct card and is the last card
+      card.classList.add("success-card");
       playSound("last-card-success-sound");
-      setTimeout(() => {
-        playSound("new-game-success-sound");
-      }, 1000);
-      startNewRound();
     } else {
-      playSound("flip-card-error-sound");
+      // not last card
+      card.classList.add("flip-card-single");
+      playSound("flip-card-success-sound");
     }
   } else {
+    // clicked wrong card
+    hasError = true;
+    card.classList.add("error-card");
+    playSound("flip-card-error-sound");
   }
+
   clickCount--;
+
+  // no more clicks allowed
+  if (clickCount == 0) {
+    flipMissedCards();
+    setTimeout(() => {
+      if (!hasError) {
+        playSound("new-game-success-sound");
+      }
+      startNewRound();
+    }, 2000);
+  }
   card.removeEventListener("click", checkCard);
+};
+
+const flipMissedCards = () => {
+  const cards = document.querySelectorAll(".card");
+  cards.forEach(card => {
+    if (
+      card.dataset.selected === "true" &&
+      !card.classList.contains("flip-card-single")
+    ) {
+      card.classList.add("flip-card-single");
+    }
+  });
 };
 
 const reSetTiles = () => {
@@ -55,9 +83,23 @@ const reSetTiles = () => {
   });
 };
 
+const removeAllChild = element => {
+  while (element.lastChild) {
+    element.removeChild(element.lastChild);
+  }
+};
+
 const createMatrix = (row, col) => {
-  // get container
+  // create container
   let gameContainer = document.getElementById("game-container");
+  if (gameContainer) {
+    gameContainer.remove();
+  }
+
+  gameContainer = document.createElement("div");
+  gameContainer.id = "game-container";
+  gameContainer.classList.add("column");
+  document.getElementById("container").appendChild(gameContainer);
 
   for (let i = 0; i < row; i++) {
     // create a row
@@ -70,10 +112,6 @@ const createMatrix = (row, col) => {
       tileDiv.classList.add("card");
       tileDiv.dataset.selected = "false";
       tileDiv.addEventListener("click", checkCard);
-
-      let span = document.createElement("span");
-      rowDiv.appendChild(span);
-
       rowDiv.appendChild(tileDiv);
     }
     gameContainer.appendChild(rowDiv);
@@ -83,16 +121,15 @@ const createMatrix = (row, col) => {
 const rotateMatrix = () => {
   let container = document.getElementById("game-container");
 
-  // remove rotate class in case it exist
-  container.classList.remove("rotate-matrix");
-
   // add rotate class
   container.classList.add("rotate-matrix");
 };
 
 const startNewRound = () => {
-  // update rows, and columns
+  // update rows, and columns, tiles, clickCount, hasError
 
+  hasError = false;
+  clickCount = tiles;
   // create new matrix
   createMatrix(matrixRow, matrixCol);
 
