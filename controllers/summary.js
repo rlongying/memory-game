@@ -14,15 +14,24 @@ exports.addNewScore = (req, res, next) => {
   res.redirect(301, `/ranks?name=${name}&score=${score}`);
 };
 
-exports.getTopFive = (req, res, next) => {
-  rankModel.getTopFive().then(docs => {
-    console.log("docs " + JSON.stringify(docs));
-    const { name, score } = req.query;
-    // res.json({ query: req.query, data: docs });
-    res.render("ranks", {
-      self: { name, score },
-      ranks: docs,
-      ranksCSS: true
-    });
+exports.getTopFive = async (req, res, next) => {
+  let topFive = await rankModel.getTopFive();
+  console.log("topFive => " + JSON.stringify(topFive));
+
+  const { name, score } = req.query;
+  let all = await rankModel.getRank(name);
+
+  let rank = 0;
+  all.forEach((value, index) => {
+    if (value.name == name) {
+      rank = index;
+    }
+  });
+  let self = { rank, name, score };
+
+  res.render("ranks", {
+    self: self,
+    ranks: topFive,
+    ranksCSS: true
   });
 };

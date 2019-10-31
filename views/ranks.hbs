@@ -1,15 +1,24 @@
 <div class="" id="ranks">
-    <p class="text-info">Your Score: {{self.score}}</p>
+
     <div class="ranks">
+        <div class="rank header">
+            <div class="cell text-info">Rank</div>
+            <div class="cell text-info">Name</div>
+            <div class="cell text-info">Score</div>
+        </div>
+        <div class="rank self-info">
+            <div class="cell text-info">{{self.rank}}</div>
+            <div class="cell text-info">{{self.name}}</div>
+            <div class="cell text-info">{{self.score}}</div>
+        </div>
+        <h3>Leaderboard</h3>
         {{#each ranks}}
         <div class="rank">
-            <div class="cell">{{@index}}</div>
+            <div class="cell">{{inc @index}}</div>
             <div class="cell">{{this.name}}</div>
             <div class="cell">{{this.score}}</div>
         </div>
         {{/each}}
     </div>
+    <div class="button"><button id="restart-btn">Restart</button></div>
 </div>
-
-<footer><a href="https://www.freepik.com/free-photos-vectors/ribbon">Ribbon vector created by macrovector -
-        www.freepik.com</a></footer>

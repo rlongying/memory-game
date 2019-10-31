@@ -24,7 +24,17 @@ const getTopFive = async () => {
   });
 };
 
+const getRankByName = async name => {
+  return await db.then(async collection => {
+    return await collection
+      .find()
+      .sort({ score: -1 })
+      .toArray();
+  });
+};
+
 module.exports = {
   addNew: addNewRecord,
-  getTopFive: getTopFive
+  getTopFive: getTopFive,
+  getRank: getRankByName
 };

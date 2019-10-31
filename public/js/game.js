@@ -247,9 +247,11 @@ const startNewRound = () => {
   rotateMatrix();
 };
 
-document
-  .getElementById("terminate-btn")
-  .addEventListener("click", terminateGame);
+const terminateBtn = document.getElementById("terminate-btn");
+
+if (terminateBtn) {
+  terminateBtn.addEventListener("click", terminateGame);
+}
 
 window.onload = () => {
   startNewRound();

@@ -13,7 +13,12 @@ app.engine(
   expressHbs({
     layoutsDir: "views/layouts/",
     defaultLayout: "main-layout",
-    extname: "hbs"
+    extname: "hbs",
+    helpers: {
+      inc: function(value) {
+        return parseInt(value) + 1;
+      }
+    }
   })
 );
 
