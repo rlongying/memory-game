@@ -1,14 +1,14 @@
 import { getRndIntegers } from "./util.js";
-import { InitialValue, Audio } from "./constatns.js";
+import { GameConfig, Audio, UIText } from "./constatns.js";
 
 // matrix dimension, min 5x5
-let matrixRow = InitialValue.row;
-let matrixCol = InitialValue.column;
+let matrixRow = GameConfig.minRow;
+let matrixCol = GameConfig.minColumn;
 
 // number of tiles, initial value 5
-let tiles = InitialValue.tiles;
-let trial = InitialValue.trial;
-let score = InitialValue.score;
+let tiles = GameConfig.tiles;
+let trial = GameConfig.trial;
+let score = GameConfig.score;
 
 // how many tiles have been clicked
 let clickCount = tiles;
@@ -37,9 +37,13 @@ const updateScore = newScore => {
 
 const resetGameNumbers = () => {
   // reset game info display
-  updateTrial(InitialValue.trial);
-  updateTiles(InitialValue.tiles);
-  updateScore(InitialValue.score);
+  updateTrial(GameConfig.trial);
+  updateTiles(GameConfig.tiles);
+  updateScore(GameConfig.score);
+  matrixCol = GameConfig.minColumn;
+  matrixRow = GameConfig.minRow;
+  hasError = false;
+  clickCount = tiles;
 };
 
 const playSound = soundId => {
@@ -74,6 +78,8 @@ let checkCard = event => {
 
   clickCount--;
 
+  card.removeEventListener("click", checkCard);
+
   // no more clicks allowed
   if (clickCount == 0) {
     flipMissedCards();
@@ -81,10 +87,13 @@ let checkCard = event => {
       if (!hasError) {
         playSound(Audio.newGameSuccess);
       }
-      startNewRound();
+      if (score > 0) {
+        startNewRound();
+      } else {
+        terminateGame(null);
+      }
     }, 2000);
   }
-  card.removeEventListener("click", checkCard);
 };
 
 const flipMissedCards = () => {
@@ -158,28 +167,76 @@ const rotateMatrix = () => {
   container.classList.add("rotate-matrix");
 };
 
-const terminateGame = () => {
-  if (confirm("Are you sure to terminate the game?")) {
-    // yes
-    console.log("confirm termination");
-    resetGameNumbers();
+const terminateGame = event => {
+  if (event) {
+    //event not null, terminate by 'terminate' button
+    if (confirm("Are you sure to terminate the game?")) {
+      // yes
+      // console.log("confirm termination");
+      // send http request to redirect to summary page
+      window.location = "/summary?score=" + score;
+      resetGameNumbers();
+    }
+  } else {
+    let terminateBtn = document.getElementById("terminate-btn");
+    terminateBtn.textContent = UIText.restartBtn;
+    terminateBtn.removeEventListener("click", terminateGame);
+    terminateBtn.addEventListener("click", restartGame);
   }
+
   // cancel do nothing
 };
 
+const restartGame = e => {
+  e.target.removeEventListener("click", restartGame);
+  e.target.addEventListener("click", terminateGame);
+  e.target.textContent = UIText.terminateBtn;
+  resetGameNumbers();
+  startNewRound();
+};
+
 const setNewMatrix = () => {
+  trial += 1;
   if (hasError) {
+    // make game easier
+    // decrease the max among (row, col, tiles)
+    // until they get the lowest limit
+    if (tiles > matrixCol) {
+      tiles -= 1;
+    } else if (matrixCol > matrixRow) {
+      matrixCol -= 1;
+    } else if (matrixRow > GameConfig.minRow) {
+      matrixRow -= 1;
+    } else if (tiles > 1) {
+      tiles -= 1;
+    }
+  } else {
+    // make game harder
+    // alway increase colum first, so row will alway be
+    // less than or equal to column.
+    // and their difference should not be greater than 1
+    if (tiles < matrixRow + 1) {
+      tiles += 1;
+    } else if (matrixRow < matrixCol) {
+      matrixRow += 1;
+    } else if (matrixCol < GameConfig.maxColumn) {
+      matrixCol += 1;
+    } else if (tiles < GameConfig.maxTiles) {
+      tiles += 1;
+    }
   }
+
   hasError = false;
   clickCount = tiles;
+  updateScore(score);
+  updateTiles(tiles);
+  updateTrial(trial);
 };
 
 const startNewRound = () => {
   // update rows, and columns, tiles, clickCount, hasError
   setNewMatrix();
 
-  // display game infos
-  resetGameNumbers();
   // create new matrix
   createMatrix(matrixRow, matrixCol);
 

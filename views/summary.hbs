@@ -1,0 +1,8 @@
+<div id="summary">
+    <p class="text-info">Your Score: {{score}}</p>
+    <form class="form" action="/summary/add" method="POST">
+        <input type="hidden" name="score" value={{score}} />
+        <input type="text" name="name" placeholder="Your name:">
+        <div class="button"><button type="submit">Submit</button></div>
+    </form>
+</div>

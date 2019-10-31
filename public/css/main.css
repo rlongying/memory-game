@@ -1,0 +1,40 @@
+:root {
+  --main-bg-color: #70552f;
+  --card-bg-color: #382b1e;
+  --game-bg-color: cornsilk;
+  --info-bg-color: #f8f4ef;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--main-bg-color);
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.button button {
+  width: 150px;
+  height: 60px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  background-color: var(--card-bg-color);
+  color: white;
+}
+
+.text-info {
+  font-size: 1.2rem;
+  font-style: italic;
+}

@@ -1,21 +1,3 @@
-:root {
-  --main-bg-color: #70552f;
-  --card-bg-color: #382b1e;
-  --game-bg-color: cornsilk;
-  --info-bg-color: #f8f4ef;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  padding: 0;
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: var(--main-bg-color);
-}
-
 #container {
   margin: 0 auto;
   /* display: flex;
@@ -48,6 +30,7 @@ body {
   background-color: var(--game-bg-color);
   padding: 10px;
   display: inline-block;
+  margin-bottom: 40px;
 }
 
 .rotate-matrix {
@@ -152,22 +135,4 @@ body {
 
 .audio-container {
   display: none;
-}
-
-.button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 40px;
-}
-
-.button button {
-  width: 150px;
-  height: 60px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  border-radius: 5px;
-  border: none;
-  background-color: var(--card-bg-color);
-  color: white;
 }

@@ -24,12 +24,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // routes
+const summaryRoutes = require("./routes/summary");
+app.use(summaryRoutes);
 
 // static file
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-  res.render("game");
+  res.render("game", { gameCSS: true });
 });
 
 app.listen(port, () => console.log("Server is listening on port: " + port));

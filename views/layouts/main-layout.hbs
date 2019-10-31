@@ -5,8 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/main.css">
+    {{#if gameCSS}}
     <link rel="stylesheet" href="/css/game.css">
     <script type="module" src="/js/game.js" defer></script>
+    {{/if}}
+    {{#if summaryCSS}}
+    <link rel="stylesheet" href="/css/summary.css">
+    <script type="module" src="/js/summary.js" defer></script>
+    {{/if}}
+    {{#if ranksCSS}}
+    <link rel="stylesheet" href="/css/ranks.css">
+    <script type="module" src="/js/ranks.js" defer></script>
+    {{/if}}
     <title>Memory Game</title>
 </head>
 
