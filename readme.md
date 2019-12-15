@@ -1,6 +1,6 @@
-# [Memory Game](https://memory-game-ivan.herokuapp.com)
+# Memory Game
 
-### A card flipping game to improve your memory
+### A card flipping game to improve your memory, [try the game](https://memory-game-ivan.herokuapp.com)
 
 <img src="./doc/images/1.png" width=60%>
 <img src="./doc/images/2.png" width=60%>
